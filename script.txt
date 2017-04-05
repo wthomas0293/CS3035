@@ -1,0 +1,226 @@
+//Consists of 2 challenges
+
+
+//Table created
+var table=document.createElement('table');
+table.setAttribute('class','table table-bordered');
+
+function getRandom(){return Math.floor(Math.random() * (8 - 1)) + 1;}
+
+var info=document.getElementById('info');
+
+function updateInfo(){
+info.innerHTML="";
+info.innerHTML+="playerHealth:"+player.life;
+info.innerHTML+="</br>"
+info.innerHTML+="Prizes: "+player.prize;
+ 
+}
+
+updateInfo();
+var game=document.getElementById('game');
+var wt=document.createElement('body');
+
+
+//populate the table with rows and columns
+for(var x=0;x<8;x++){
+	var row=document.createElement('tr');
+	for(var y=0;y<8;y++){
+		var col=document.createElement('td')		
+		row.appendChild(col);
+	}
+	wt.appendChild(row);
+}
+table.appendChild(wt);
+game.appendChild(table);
+
+
+//Let's begin with the moves
+function firstMove(){
+	
+	table.rows[position[0]].cells[position[1]].innerHTML=player.playerName;
+	setTimeout(function(){NextMove(window.prompt("Enter A Direction","U,D,L,R"));; },450);
+
+}
+
+firstMove();
+
+function NextMove( move){
+if(player.life<=0){
+	window.alert("You died, You LOST the game!");
+}
+
+
+********************************************************Up botton
+var button = document.createElement("UP");
+button.innerHTML = "up";
+
+var body = document.getElementsByTagName("up()")[0];
+body.appendChild(button);
+
+
+function up()
+if(move==='U'){
+	if(CheckMove([position[0]-1,position[1]])){position=[position[0]-1,position[1]];Update();}
+
+	else{
+		setTimeout(function(){NextMove(window.prompt("Enter A Direction","U,D,L,R"));; }, 450);
+	}
+}
+
+**********************************************************
+
+var button = document.createElement("DOWN");
+button.innerHTML = "down";
+
+var body = document.getElementsByTagName("down()")[0];
+body.appendChild(button);
+
+
+function down()
+if(move==='D'){
+	if(CheckMove([position[0]+1,position[1]])){position=[position[0]+1,position[1]];Update();}
+
+	else{
+		setTimeout(function(){NextMove(window.prompt("Enter A Direction","U,D,L,R"));; }, 450);
+		}
+	}
+}
+
+*****************************************************************
+
+var button = document.createElement("LEFT");
+button.innerHTML = "left";
+
+var body = document.getElementsByTagName("left()")[0];
+body.appendChild(button);
+
+
+function left()
+if (move==='L'){
+	if(CheckMove([position[0],position[1]-1])){position=[position[0],position[1]-1];Update();}
+
+	else{
+		setTimeout(function(){NextMove(window.prompt("Enter A Direction","U,D,L,R"));; }, 450);
+		}
+}
+
+
+*****************************************************************
+
+var button = document.createElement("RIGHT");
+button.innerHTML = "right";
+
+var body = document.getElementsByTagName("right()")[0];
+body.appendChild(button);
+
+
+function right()
+if(move==='R'){	
+	if(CheckMove([position[0],position[1]+1])){position=[position[0],position[1]+1];Update();}
+
+	else{
+		setTimeout(function(){NextMove(window.prompt("Enter A Direction","U,D,L,R"));; }, 450);
+	}
+}
+
+}
+
+
+*****************************************************************
+
+function Update(){
+	if(player.life<=0){
+	window.alert("You died, You LOST the game!");
+}
+	else if(position[0]==endsT && position[1]==endsW){
+		table.rows[position[0]].cells[position[1]].style.border="10px solid orange";
+		window.alert("You completed the game, Good Job!");
+	}
+	else{
+	table.rows[previous[0]].cells[previous[1]].innerHTML=board[previous[0]][previous[1]].playerName;
+	table.rows[previous[0]].cells[previous[1]].style.border="3px solid red";
+	table.rows[position[0]].cells[position[1]].innerHTML=board[position[0]][position[1]].playerName;	
+	table.rows[position[0]].cells[position[1]].style.border="5px solid black";
+	previous=[position[0],position[1]];
+	visited.push(previous);
+	setTimeout(function(){NextMove(window.prompt("Enter A Direction","U,D,L,R"));; }, 450);}
+}
+
+
+//****************************
+var player={playerName:window.prompt("Enter Your playerName to start"), life:100, prize:0, damage:20, playerplayerName:'player1'};
+var currentPosition=[getRandom(),getRandom()];
+var previousPosition=[position[0],position[1]];
+var wall={schortcut:true,playerName:'Wall'};
+function prize(schortcut,process,playerName){
+	this.playerName=playerName;
+	this.schortcut=schortcut;
+	this.process=process;
+}
+
+//**************************CHALLENGE*** stranger
+var challenge={schortcut:true, playerName:'stranger',life:25,prize:'1 plato dollar',damage:5,
+runChallenge:function(){
+	var reply=window.confirm("stranger is here! Do you wanna fight it?");
+	if(reply===false){window.alert("you decided to fly away!"); return false;}
+	else{		
+		
+	while(reply===true && challenge.life>0 && player.life>0){
+		var fight=document.getElementById('fight');
+		fight.innerHTML="";
+		fight.innerHTML+="strangers HP: "+this.life;
+		window.alert("You did 25 damage to stranger, and lost 10 HP yourself!");
+		challenge.life=challenge.life-25;
+		player.life=player.life-9;		
+		
+		reply=window.confirm("Do you wanna continue the fight? Your HP: "+player.life+" || stranger: "+challenge.life);
+	}
+	if(player.life<=0){window.alert("You died! You lost the game! ");return true;};
+	if(challenge.life>0 && player.life>=0){window.alert("You decided to fly away!");}else{window.alert("You defeated stranger! YOU won the PRIZE!");player.prize++;}
+	updateInfo();
+	fight.innerHTML="";	
+	challenge.life=25;
+	return true;
+}}};
+
+//************************************CHALLENGE1*** Joker1
+var challenge1={schortcut:true, playerName:'Joker1',life:25,prize:'5 plato dollars',damage:5,
+runChallenge:function(){
+	var reply=window.confirm("Joker1! Do you wanna fight it?");
+	if(reply===false){window.alert("You decided fly away!"); return false;}
+	else{		
+		
+	while(reply===true && challenge1.life>0 && player.life>0){
+		window.alert("You did 20 damage to the Joker1, and lost 5 HP yourself!");
+		challenge1.life=challenge1.life-20;
+		player.life=player.life-5;		
+		info.innerHTML="";
+		info.innerHTML+="playerHealth:"+player.life;
+		
+	}
+	if(player.life<=0){window.alert("You died! You lost the game!") ;return true;};
+	if(challenge1.life>0  &&  player.life>=0){window.alert("You decided to fly way!");}else{window.alert("You defeated the Joker1! You won the Prize!");player.prize++;}
+	
+
+	updateInfo();	
+	challenge1.life=25;
+	return true;
+}
+}};
+
+
+var end={playerName:"Champion",schortcut:false};
+var board = [	[wall,wall,wall,wall,wall,wall,wall,wall],
+				[wall,new prize(true,"You won the prize!","Prize"),challenge1,new prize(true,"You won the prize!","Prize"),new prize(true,"You won the prize!","Prize") ,challenge1,challenge,wall],
+				[wall,new prize(true,"You won the prize!","Prize"),challenge2,wall,wall,challenge,challenge2,wall],
+				[wall,wall,wall,wall,wall,wall,wall,wall]
+]; 
+
+var visited=[[position[0],position[1]]];
+
+
+
+
+
+
